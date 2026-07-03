@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Quiz;
+use App\Models\QuizAttempt;
+use Illuminate\Http\Request;
+
+class QuizController extends Controller
+{
+    public function index()
+    {
+        $quiz = Quiz::where('niveau', auth()->user()->niveau)
+            ->withCount('questions')
+            ->orderBy('matiere')
+            ->get()
+            ->groupBy('matiere');
+
+        $historique = auth()->user()->quizAttempts()->with('quiz')->latest()->take(10)->get();
+
+        return view('etudiant.quiz.index', compact('quiz', 'historique'));
+    }
+
+    public function show(Quiz $quiz)
+    {
+        abort_unless($quiz->niveau === auth()->user()->niveau, 403);
+
+        $quiz->load('questions');
+
+        return view('etudiant.quiz.show', compact('quiz'));
+    }
+
+    public function submit(Request $request, Quiz $quiz)
+    {
+        abort_unless($quiz->niveau === auth()->user()->niveau, 403);
+
+        $reponses = $request->input('reponses', []);
+        $questions = $quiz->questions;
+
+        $score = 0;
+        foreach ($questions as $question) {
+            if (($reponses[$question->id] ?? null) === $question->bonne_reponse) {
+                $score++;
+            }
+        }
+
+        $attempt = QuizAttempt::create([
+            'user_id' => auth()->id(),
+            'quiz_id' => $quiz->id,
+            'score'   => $score,
+            'total'   => $questions->count(),
+        ]);
+
+        return redirect()->route('etudiant.quiz.index')
+            ->with('success', "Quiz terminé : {$attempt->score}/{$attempt->total} bonnes réponses.");
+    }
+}

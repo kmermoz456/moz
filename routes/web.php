@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\InscriptionController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\{PageController, CoursController};
+use App\Http\Controllers\{PageController, CoursController, QuizController};
 
 // Site public
 Route::get('/', [PageController::class, 'accueil'])->name('accueil');
@@ -23,6 +23,10 @@ Route::post('/deconnexion', [SessionController::class, 'destroy'])->middleware('
 Route::middleware('auth')->group(function () {
     Route::get('/mon-espace', [CoursController::class, 'dashboard'])->name('etudiant.dashboard');
     Route::get('/cours/{cours}/telecharger', [CoursController::class, 'telecharger'])->name('cours.telecharger');
+
+    Route::get('/quiz', [QuizController::class, 'index'])->name('etudiant.quiz.index');
+    Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('etudiant.quiz.show');
+    Route::post('/quiz/{quiz}', [QuizController::class, 'submit'])->name('etudiant.quiz.submit');
 });
 
 // Espace admin
