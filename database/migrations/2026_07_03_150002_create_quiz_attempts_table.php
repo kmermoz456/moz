@@ -14,7 +14,7 @@ return new class extends Migration
     Schema::create('quiz_attempts', function (Blueprint $table) {
         $table->id();
         $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-        $table->string('quiz_titre');
+        $table->foreignId('quiz_id')->constrained('quiz')->cascadeOnDelete();
         $table->unsignedInteger('score');
         $table->unsignedInteger('total');
         $table->timestamps();
