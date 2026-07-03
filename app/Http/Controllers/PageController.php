@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actualite;
+use App\Models\Galerie;
+use App\Models\Parametre;
 use App\Models\Temoignage;
 use App\Models\User;
 use App\Models\Cours;
@@ -14,12 +16,12 @@ class PageController extends Controller
      */
     public function accueil()
     {
-        // Chiffres clés calculés en temps réel
+        // Chiffres clés : nombre d'étudiants calculé en temps réel, le reste modifiable par l'admin
         $chiffres = [
             'etudiants_formes' => User::where('role', 'etudiant')->count(),
-            'taux_reussite'    => 92, // à ajuster ou calculer depuis quiz_attempts
-            'enseignants'      => 15,
-            'annees'           => now()->year - 2021, // année de création d'ITF
+            'taux_reussite'    => Parametre::get('taux_reussite', 92),
+            'enseignants'      => Parametre::get('nombre_enseignants', 15),
+            'annees'           => Parametre::get('annees_experience', now()->year - 2021),
         ];
 
         // Témoignages publiés (les 6 plus récents)
@@ -34,7 +36,10 @@ class PageController extends Controller
             ->take(3)
             ->get();
 
-        return view('accueil', compact('chiffres', 'temoignages', 'actualites'));
+        // Galerie photos (les 8 plus récentes)
+        $galerie = Galerie::latest()->take(8)->get();
+
+        return view('accueil', compact('chiffres', 'temoignages', 'actualites', 'galerie'));
     }
 
     /**

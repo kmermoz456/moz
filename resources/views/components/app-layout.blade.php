@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'ITF — Intellect Tronc SN Formation' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 <body class="bg-itf-white text-itf-dark antialiased">
 
     <header class="bg-itf-white border-b border-gray-200 sticky top-0 z-40" x-data="{ open: false }">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="max-w-6xl mx-auto px-4" @click.outside="open = false">
             <div class="flex items-center justify-between h-16">
                 <a href="{{ route('accueil') }}" class="font-bold text-xl text-itf-blue">
                     ITF <span class="text-itf-dark font-normal text-sm hidden sm:inline">Renforcement académique</span>
@@ -52,7 +53,7 @@
             </div>
 
             {{-- Menu mobile --}}
-            <nav x-show="open" x-cloak @click.outside="open = false"
+            <nav x-show="open" x-cloak
                  class="md:hidden pb-4 flex flex-col gap-3 text-sm font-medium" style="display: none;">
                 <a href="{{ route('accueil') }}" class="hover:text-itf-blue">Accueil</a>
                 <a href="{{ route('universite') }}" class="hover:text-itf-blue">Université</a>
@@ -113,5 +114,7 @@
             &copy; {{ date('Y') }} ITF — Intellect Tronc SN Formation. Tous droits réservés.
         </div>
     </footer>
+
+    @stack('scripts')
 </body>
 </html>
