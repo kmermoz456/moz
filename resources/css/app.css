@@ -12,3 +12,7 @@
     --color-itf-white: #ffffff;
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
