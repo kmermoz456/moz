@@ -84,7 +84,7 @@
                 </button>
 
                 <p class="text-center text-sm text-gray-500">
-                    Déjà inscrit ? <a href="{{ route('login') }}" class="text-itf-blue font-semibold">Se connecter</a>
+                    Déjà inscrit ? <a href="{{ route('connexion') }}" class="text-itf-blue font-semibold">Se connecter</a>
                 </p>
             </form>
         </div>

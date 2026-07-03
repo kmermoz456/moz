@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\InscriptionController;
+use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\{PageController, CoursController};
 
@@ -12,6 +13,11 @@ Route::get('/pourquoi-itf', [PageController::class, 'pourquoiItf'])->name('pourq
 // Inscription
 Route::get('/inscription', [InscriptionController::class, 'create'])->name('inscription');
 Route::post('/inscription', [InscriptionController::class, 'store']);
+
+// Connexion / déconnexion
+Route::get('/connexion', [SessionController::class, 'create'])->name('connexion');
+Route::post('/connexion', [SessionController::class, 'store']);
+Route::post('/deconnexion', [SessionController::class, 'destroy'])->middleware('auth')->name('deconnexion');
 
 // Espace étudiant
 Route::middleware('auth')->group(function () {
