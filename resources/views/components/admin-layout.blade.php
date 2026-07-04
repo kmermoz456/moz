@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'Back-office ITF' }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/icon_ITF.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
@@ -11,7 +12,10 @@
 
     {{-- Barre mobile --}}
     <div class="md:hidden flex items-center justify-between bg-itf-dark text-itf-white p-4">
-        <a href="{{ route('admin.dashboard') }}" class="font-bold">ITF — Back-office</a>
+        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 font-bold">
+            <img src="{{ asset('images/icon_ITF.png') }}" alt="ITF" class="h-8 w-auto">
+            Back-office
+        </a>
         <button @click="sidebar = !sidebar" aria-label="Ouvrir le menu">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -24,7 +28,10 @@
         <aside x-show="sidebar || window.innerWidth >= 768" x-cloak
                class="w-64 bg-itf-dark text-itf-white flex-shrink-0 md:block">
             <div class="p-6 hidden md:block">
-                <a href="{{ route('admin.dashboard') }}" class="font-bold text-xl">ITF — Back-office</a>
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 font-bold text-xl">
+                    <img src="{{ asset('images/icon_ITF.png') }}" alt="ITF" class="h-9 w-auto">
+                    Back-office
+                </a>
             </div>
             <nav class="px-4 pb-6 space-y-1 text-sm">
                 @php

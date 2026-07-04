@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'ITF — Intellect Tronc SN Formation' }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/icon_ITF.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
@@ -47,8 +48,9 @@
     <header class="bg-itf-white border-b border-gray-200 sticky top-0 z-40" x-data="{ open: false }">
         <div class="max-w-6xl mx-auto px-4" @click.outside="open = false">
             <div class="flex items-center justify-between h-16">
-                <a href="{{ route('accueil') }}" class="font-bold text-xl text-itf-blue">
-                    ITF <span class="text-itf-dark font-normal text-sm hidden sm:inline">Renforcement académique</span>
+                <a href="{{ route('accueil') }}" class="flex items-center gap-2 font-bold text-xl text-itf-blue">
+                    <img src="{{ asset('images/icon_ITF.png') }}" alt="ITF" class="h-10 w-auto">
+                    <span class="text-itf-dark font-normal text-sm hidden sm:inline">Renforcement académique</span>
                 </a>
 
                 {{-- Menu desktop --}}
@@ -149,7 +151,7 @@
     <footer class="bg-itf-dark text-itf-white mt-16">
         <div class="max-w-6xl mx-auto px-4 py-10 grid gap-8 sm:grid-cols-3">
             <div>
-                <h3 class="font-bold text-lg mb-2">ITF</h3>
+                <img src="{{ asset('images/icon_ITF.png') }}" alt="ITF" class="h-10 w-auto mb-3">
                 <p class="text-sm text-gray-300">Intellect Tronc SN Formation — renforcement académique pour les
                     étudiants de Licence 1 et Licence 2 en Sciences de la Nature de l'Université Nangui Abrogoua.</p>
             </div>
