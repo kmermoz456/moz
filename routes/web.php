@@ -17,6 +17,10 @@ use App\Http\Controllers\{PageController, CoursController, QuizController};
 Route::get('/', [PageController::class, 'accueil'])->name('accueil');
 Route::get('/universite', [PageController::class, 'universite'])->name('universite');
 Route::get('/pourquoi-itf', [PageController::class, 'pourquoiItf'])->name('pourquoi');
+Route::get('/whatsapp', [PageController::class, 'whatsapp'])->name('whatsapp');
+Route::get('/statistiques', [PageController::class, 'statistiques'])->name('statistiques');
+Route::get('/temoignages', [PageController::class, 'temoignages'])->name('temoignages');
+Route::get('/a-propos', [PageController::class, 'aPropos'])->name('apropos');
 
 // Inscription
 Route::get('/inscription', [InscriptionController::class, 'create'])->name('inscription');

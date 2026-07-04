@@ -32,9 +32,23 @@
                 </div>
 
                 <div>
+                    <label class="block font-semibold text-itf-dark mb-1">Taux de satisfaction (%)</label>
+                    <input type="number" name="taux_satisfaction" min="0" max="100"
+                           value="{{ old('taux_satisfaction', $parametres['taux_satisfaction']) }}" required
+                           class="w-full rounded-lg border-gray-300 focus:border-itf-blue focus:ring-itf-blue">
+                </div>
+
+                <div>
                     <label class="block font-semibold text-itf-dark mb-1">Années d'expérience</label>
                     <input type="number" name="annees_experience" min="0"
                            value="{{ old('annees_experience', $parametres['annees_experience']) }}" required
+                           class="w-full rounded-lg border-gray-300 focus:border-itf-blue focus:ring-itf-blue">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-itf-dark mb-1">Lien du groupe WhatsApp</label>
+                    <input type="url" name="whatsapp_lien" placeholder="https://chat.whatsapp.com/..."
+                           value="{{ old('whatsapp_lien', $parametres['whatsapp_lien']) }}" required
                            class="w-full rounded-lg border-gray-300 focus:border-itf-blue focus:ring-itf-blue">
                 </div>
 

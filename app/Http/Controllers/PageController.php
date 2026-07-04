@@ -112,4 +112,79 @@ class PageController extends Controller
 
         return view('pourquoi-itf', compact('avantages'));
     }
+
+    /**
+     * Communauté WhatsApp
+     */
+    public function whatsapp()
+    {
+        $lienWhatsapp = Parametre::get('whatsapp_lien', 'https://chat.whatsapp.com/');
+
+        $avantages = [
+            ['icone' => '📚', 'titre' => 'Informations sur les cours', 'description' => 'Recevez les nouveaux supports, plannings et rappels de cours dès leur publication.'],
+            ['icone' => '🧭', 'titre' => 'Conseils d\'orientation', 'description' => 'Des conseils pour bien choisir vos options et organiser votre parcours universitaire.'],
+            ['icone' => '🎓', 'titre' => 'Aides académiques', 'description' => 'Posez vos questions et obtenez de l\'aide sur les matières qui vous posent problème.'],
+            ['icone' => '📢', 'titre' => 'Annonces importantes', 'description' => 'Dates d\'examens, places disponibles, événements : ne manquez plus aucune information.'],
+        ];
+
+        return view('whatsapp', compact('lienWhatsapp', 'avantages'));
+    }
+
+    /**
+     * Statistiques et résultats
+     */
+    public function statistiques()
+    {
+        $etudiantsFormes = User::where('role', 'etudiant')->count();
+
+        $etudiantsActifs = User::where('role', 'etudiant')
+            ->where(function ($query) {
+                $query->where('essai_fin', '>=', now())
+                    ->orWhereHas('paiements', function ($q) {
+                        $q->where('statut', 'valide')->where('mois', now()->format('Y-m'));
+                    });
+            })
+            ->count();
+
+        $chiffres = [
+            'etudiants_formes'  => $etudiantsFormes,
+            'etudiants_actifs'  => $etudiantsActifs,
+            'taux_reussite'     => Parametre::get('taux_reussite', 92),
+            'taux_satisfaction' => Parametre::get('taux_satisfaction', 95),
+        ];
+
+        // Évolution annuelle du taux de réussite — données à ajuster par la structure
+        $evolution = [
+            ['annee' => 2022, 'taux' => 78],
+            ['annee' => 2023, 'taux' => 85],
+            ['annee' => 2024, 'taux' => 89],
+            ['annee' => 2025, 'taux' => (int) $chiffres['taux_reussite']],
+        ];
+
+        return view('statistiques', compact('chiffres', 'evolution'));
+    }
+
+    /**
+     * Témoignages (page dédiée)
+     */
+    public function temoignages()
+    {
+        $temoignages = Temoignage::where('publie', true)->latest()->paginate(9);
+
+        return view('temoignages', compact('temoignages'));
+    }
+
+    /**
+     * À propos de la structure
+     */
+    public function aPropos()
+    {
+        $valeurs = [
+            ['icone' => '🎯', 'titre' => 'Excellence', 'description' => 'Un accompagnement rigoureux pour préparer nos étudiants aux exigences de l\'université.'],
+            ['icone' => '🤝', 'titre' => 'Proximité', 'description' => 'Un suivi humain et personnalisé, à l\'écoute de chaque étudiant.'],
+            ['icone' => '📈', 'titre' => 'Résultats', 'description' => 'Un engagement constant pour la réussite académique de nos étudiants.'],
+        ];
+
+        return view('a-propos', compact('valeurs'));
+    }
 }

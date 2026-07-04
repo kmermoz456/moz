@@ -17,10 +17,17 @@
                 </a>
 
                 {{-- Menu desktop --}}
-                <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+                <nav class="hidden md:flex items-center gap-5 text-sm font-medium">
                     <a href="{{ route('accueil') }}" class="hover:text-itf-blue">Accueil</a>
                     <a href="{{ route('universite') }}" class="hover:text-itf-blue">Université</a>
                     <a href="{{ route('pourquoi') }}" class="hover:text-itf-blue">Pourquoi ITF ?</a>
+                    <a href="{{ route('temoignages') }}" class="hover:text-itf-blue">Témoignages</a>
+                    <a href="{{ route('statistiques') }}" class="hover:text-itf-blue">Statistiques</a>
+                    <a href="{{ route('apropos') }}" class="hover:text-itf-blue">À propos</a>
+                    <a href="{{ route('whatsapp') }}"
+                       class="flex items-center gap-1 bg-green-500 text-itf-white px-3 py-1.5 rounded-lg hover:opacity-90 transition">
+                        💬 WhatsApp
+                    </a>
 
                     @auth
                         @if (auth()->user()->isAdmin())
@@ -58,6 +65,13 @@
                 <a href="{{ route('accueil') }}" class="hover:text-itf-blue">Accueil</a>
                 <a href="{{ route('universite') }}" class="hover:text-itf-blue">Université</a>
                 <a href="{{ route('pourquoi') }}" class="hover:text-itf-blue">Pourquoi ITF ?</a>
+                <a href="{{ route('temoignages') }}" class="hover:text-itf-blue">Témoignages</a>
+                <a href="{{ route('statistiques') }}" class="hover:text-itf-blue">Statistiques</a>
+                <a href="{{ route('apropos') }}" class="hover:text-itf-blue">À propos</a>
+                <a href="{{ route('whatsapp') }}"
+                   class="flex items-center gap-1 bg-green-500 text-itf-white px-4 py-2 rounded-lg text-center hover:opacity-90 transition">
+                    💬 Rejoindre le groupe WhatsApp
+                </a>
 
                 @auth
                     @if (auth()->user()->isAdmin())
@@ -97,7 +111,7 @@
                 <h3 class="font-bold text-lg mb-2">Contacts</h3>
                 <ul class="text-sm text-gray-300 space-y-1">
                     <li>Email : contact@itf.ci</li>
-                    <li>WhatsApp : +225 07 00 00 00 00</li>
+                    <li><a href="{{ route('whatsapp') }}" class="hover:text-itf-white">WhatsApp : +225 07 00 00 00 00</a></li>
                     <li>Localisation : Abidjan, Côte d'Ivoire</li>
                 </ul>
             </div>
@@ -106,6 +120,9 @@
                 <ul class="text-sm text-gray-300 space-y-1">
                     <li><a href="{{ route('universite') }}" class="hover:text-itf-white">Découvrir l'université</a></li>
                     <li><a href="{{ route('pourquoi') }}" class="hover:text-itf-white">Pourquoi choisir ITF ?</a></li>
+                    <li><a href="{{ route('temoignages') }}" class="hover:text-itf-white">Témoignages</a></li>
+                    <li><a href="{{ route('statistiques') }}" class="hover:text-itf-white">Statistiques</a></li>
+                    <li><a href="{{ route('apropos') }}" class="hover:text-itf-white">À propos</a></li>
                     <li><a href="{{ route('inscription') }}" class="hover:text-itf-white">S'inscrire</a></li>
                 </ul>
             </div>

@@ -12,8 +12,10 @@ class ParametreController extends Controller
     {
         $parametres = [
             'taux_reussite'      => Parametre::get('taux_reussite', 92),
+            'taux_satisfaction'  => Parametre::get('taux_satisfaction', 95),
             'nombre_enseignants' => Parametre::get('nombre_enseignants', 15),
             'annees_experience'  => Parametre::get('annees_experience', now()->year - 2021),
+            'whatsapp_lien'      => Parametre::get('whatsapp_lien', 'https://chat.whatsapp.com/'),
         ];
 
         return view('admin.parametres.index', compact('parametres'));
