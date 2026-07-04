@@ -31,6 +31,7 @@
                     $links = [
                         ['route' => 'admin.dashboard', 'label' => '📊 Tableau de bord'],
                         ['route' => 'admin.etudiants.index', 'label' => '🎓 Étudiants'],
+                        ['route' => 'admin.prospects.index', 'label' => '📇 Contacts rapides'],
                         ['route' => 'admin.cours.index', 'label' => '📄 Cours'],
                         ['route' => 'admin.paiements.index', 'label' => '💳 Paiements'],
                         ['route' => 'admin.quiz.index', 'label' => '⚡ Quiz'],

@@ -52,6 +52,14 @@
                            class="w-full rounded-lg border-gray-300 focus:border-itf-blue focus:ring-itf-blue">
                 </div>
 
+                <div>
+                    <label class="block font-semibold text-itf-dark mb-1">Places disponibles ce mois-ci</label>
+                    <input type="number" name="places_disponibles" min="0"
+                           value="{{ old('places_disponibles', $parametres['places_disponibles']) }}" required
+                           class="w-full rounded-lg border-gray-300 focus:border-itf-blue focus:ring-itf-blue">
+                    <p class="text-xs text-gray-500 mt-1">Affiché dans le bandeau d'urgence sur tout le site.</p>
+                </div>
+
                 <p class="text-xs text-gray-500">Le nombre d'étudiants formés est calculé automatiquement et n'est pas modifiable ici.</p>
 
                 <button type="submit" class="bg-itf-blue text-itf-white font-bold px-6 py-3 rounded-lg hover:opacity-90 transition">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Parametre;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,13 @@ class InscriptionController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('etudiant.dashboard')
-            ->with('success', 'Bienvenue chez ITF ! Votre mois de renforcement gratuit est activé.');
+        return redirect()->route('inscription.confirmation');
+    }
+
+    public function confirmation()
+    {
+        $lienWhatsapp = Parametre::get('whatsapp_lien', 'https://chat.whatsapp.com/');
+
+        return view('auth.confirmation', compact('lienWhatsapp'));
     }
 }

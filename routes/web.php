@@ -11,7 +11,8 @@ use App\Http\Controllers\Admin\TemoignageController as AdminTemoignageController
 use App\Http\Controllers\Admin\ActualiteController as AdminActualiteController;
 use App\Http\Controllers\Admin\GalerieController as AdminGalerieController;
 use App\Http\Controllers\Admin\ParametreController as AdminParametreController;
-use App\Http\Controllers\{PageController, CoursController, QuizController};
+use App\Http\Controllers\Admin\ProspectController as AdminProspectController;
+use App\Http\Controllers\{PageController, CoursController, QuizController, ProspectController};
 
 // Site public
 Route::get('/', [PageController::class, 'accueil'])->name('accueil');
@@ -22,9 +23,14 @@ Route::get('/statistiques', [PageController::class, 'statistiques'])->name('stat
 Route::get('/temoignages', [PageController::class, 'temoignages'])->name('temoignages');
 Route::get('/a-propos', [PageController::class, 'aPropos'])->name('apropos');
 
+// Formulaire rapide (pop-up, bandeau, footer)
+Route::post('/contact-rapide', [ProspectController::class, 'store'])->name('prospects.store');
+
 // Inscription
 Route::get('/inscription', [InscriptionController::class, 'create'])->name('inscription');
 Route::post('/inscription', [InscriptionController::class, 'store']);
+Route::get('/inscription/confirmation', [InscriptionController::class, 'confirmation'])
+    ->middleware('auth')->name('inscription.confirmation');
 
 // Connexion / déconnexion
 Route::get('/connexion', [SessionController::class, 'create'])->name('connexion');
@@ -69,4 +75,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('parametres', [AdminParametreController::class, 'index'])->name('parametres.index');
     Route::put('parametres', [AdminParametreController::class, 'update'])->name('parametres.update');
+
+    Route::get('prospects', [AdminProspectController::class, 'index'])->name('prospects.index');
+    Route::delete('prospects/{prospect}', [AdminProspectController::class, 'destroy'])->name('prospects.destroy');
 });

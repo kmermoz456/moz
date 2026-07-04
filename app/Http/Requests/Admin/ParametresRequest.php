@@ -19,6 +19,7 @@ class ParametresRequest extends FormRequest
             'nombre_enseignants' => 'required|integer|min:0',
             'annees_experience'  => 'required|integer|min:0',
             'whatsapp_lien'      => 'required|url',
+            'places_disponibles' => 'required|integer|min:0',
         ];
     }
 }

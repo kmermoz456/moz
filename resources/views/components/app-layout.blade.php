@@ -6,8 +6,43 @@
     <title>{{ $title ?? 'ITF — Intellect Tronc SN Formation' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+
+    {{-- Google Analytics --}}
+    @if (config('services.google_analytics.id'))
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google_analytics.id') }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){ dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', '{{ config('services.google_analytics.id') }}');
+        </script>
+    @endif
+
+    {{-- Meta Pixel --}}
+    @if (config('services.facebook_pixel.id'))
+        <script>
+            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+            document,'script','https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '{{ config('services.facebook_pixel.id') }}');
+            fbq('track', 'PageView');
+        </script>
+    @endif
 </head>
 <body class="bg-itf-white text-itf-dark antialiased">
+
+    {{-- Bandeau d'urgence --}}
+    <div x-data="{ show: !sessionStorage.getItem('itf_bandeau_ferme') }" x-show="show" x-cloak
+         class="bg-itf-blue text-itf-white text-sm text-center py-2 px-4 relative">
+        <span class="font-semibold">🔥 Inscriptions ouvertes</span>
+        — Plus que <strong>{{ $placesDisponibles ?? 15 }} places</strong> disponibles ce mois-ci pour le mois gratuit !
+        <a href="{{ route('inscription') }}" class="underline font-semibold ml-1">Je m'inscris</a>
+        <button @click="show = false; sessionStorage.setItem('itf_bandeau_ferme', '1')"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-itf-white/80 hover:text-itf-white"
+                aria-label="Fermer">&times;</button>
+    </div>
 
     <header class="bg-itf-white border-b border-gray-200 sticky top-0 z-40" x-data="{ open: false }">
         <div class="max-w-6xl mx-auto px-4" @click.outside="open = false">
@@ -100,6 +135,17 @@
         {{ $slot }}
     </main>
 
+    {{-- Formulaire rapide --}}
+    <section class="bg-itf-blue py-12">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <h2 class="text-xl sm:text-2xl font-bold text-itf-white mb-2">Envie d'être rappelé ?</h2>
+            <p class="text-itf-cream text-sm mb-6">Laissez vos coordonnées, notre équipe vous contacte sur WhatsApp.</p>
+            <div class="bg-itf-white rounded-2xl p-6 max-w-xl mx-auto">
+                <x-quick-form />
+            </div>
+        </div>
+    </section>
+
     <footer class="bg-itf-dark text-itf-white mt-16">
         <div class="max-w-6xl mx-auto px-4 py-10 grid gap-8 sm:grid-cols-3">
             <div>
@@ -131,6 +177,43 @@
             &copy; {{ date('Y') }} ITF — Intellect Tronc SN Formation. Tous droits réservés.
         </div>
     </footer>
+
+    {{-- Bouton WhatsApp flottant --}}
+    <a href="{{ $whatsappLien ?? route('whatsapp') }}" target="_blank" rel="noopener"
+       aria-label="Discuter sur WhatsApp"
+       class="fixed bottom-5 right-5 z-50 bg-green-500 text-itf-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl hover:opacity-90 transition">
+        💬
+    </a>
+
+    {{-- Pop-up d'inscription pour nouveaux visiteurs --}}
+    @guest
+        <div x-data="{
+                open: false,
+                init() {
+                    if (!localStorage.getItem('itf_popup_vu')) {
+                        setTimeout(() => { this.open = true; localStorage.setItem('itf_popup_vu', '1') }, 4000)
+                    }
+                }
+             }"
+             x-show="open" x-cloak
+             class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div @click.outside="open = false" class="bg-itf-white rounded-2xl max-w-md w-full p-8 relative">
+                <button @click="open = false" class="absolute top-4 right-4 text-gray-400 hover:text-itf-dark text-xl" aria-label="Fermer">&times;</button>
+
+                <span class="text-4xl">🎁</span>
+                <h2 class="text-xl font-bold text-itf-dark mt-3">1 mois gratuit pour les nouveaux bacheliers !</h2>
+                <p class="text-sm text-gray-600 mt-2 mb-5">
+                    Laissez vos coordonnées et rejoignez la communauté ITF dès aujourd'hui.
+                </p>
+
+                <x-quick-form :compact="true" />
+
+                <a href="{{ route('inscription') }}" class="block text-center mt-4 text-itf-blue font-semibold hover:underline">
+                    Ou créer directement mon compte →
+                </a>
+            </div>
+        </div>
+    @endguest
 
     @stack('scripts')
 </body>
