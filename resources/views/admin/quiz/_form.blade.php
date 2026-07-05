@@ -6,8 +6,9 @@
             'choix' => $q->choix,
             'bonne_reponse' => $q->bonne_reponse,
             'bonnes_reponses' => $q->bonnes_reponses ?? [],
+            'explication' => $q->explication,
         ])->values()->all()
-        : [['question' => '', 'type' => 'unique', 'choix' => ['', ''], 'bonne_reponse' => '', 'bonnes_reponses' => []]];
+        : [['question' => '', 'type' => 'unique', 'choix' => ['', ''], 'bonne_reponse' => '', 'bonnes_reponses' => [], 'explication' => '']];
 @endphp
 
 @csrf
@@ -96,10 +97,17 @@
             </button>
             <p class="text-xs text-gray-500 mt-2" x-show="q.type === 'unique'">Cochez le bouton radio du choix qui est la bonne réponse.</p>
             <p class="text-xs text-gray-500 mt-2" x-show="q.type === 'multiple'">Cochez toutes les bonnes réponses (plusieurs possibles).</p>
+
+            <label class="block text-sm font-semibold text-itf-dark mt-4 mb-1">
+                Explication <span class="font-normal text-gray-400">(facultatif)</span>
+            </label>
+            <textarea :name="`questions[${qi}][explication]`" x-model="q.explication" rows="2"
+                      placeholder="Affichée à l'étudiant après sa réponse, pour l'aider à comprendre la correction."
+                      class="w-full rounded-lg border-gray-300 focus:border-itf-blue focus:ring-itf-blue"></textarea>
         </div>
     </template>
 
-    <button type="button" @click="questions.push({ question: '', type: 'unique', choix: ['', ''], bonne_reponse: '', bonnes_reponses: [] })"
+    <button type="button" @click="questions.push({ question: '', type: 'unique', choix: ['', ''], bonne_reponse: '', bonnes_reponses: [], explication: '' })"
             class="text-itf-blue font-semibold hover:underline mb-6">
         + Ajouter une question
     </button>

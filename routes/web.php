@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/quiz', [QuizController::class, 'index'])->name('etudiant.quiz.index');
     Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('etudiant.quiz.show');
     Route::post('/quiz/{quiz}', [QuizController::class, 'submit'])->name('etudiant.quiz.submit');
+    Route::get('/quiz/resultats/{attempt}', [QuizController::class, 'resultats'])->name('etudiant.quiz.resultats');
 
     Route::get('/documents', [DocumentController::class, 'index'])->name('etudiant.documents.index');
     Route::post('/documents/{document}/commander', [DocumentController::class, 'commander'])->name('etudiant.documents.commander');

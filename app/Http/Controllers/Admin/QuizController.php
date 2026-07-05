@@ -67,6 +67,7 @@ class QuizController extends Controller
             'choix'           => array_values($question['choix']),
             'bonne_reponse'   => $type === 'unique' ? $question['bonne_reponse'] : '',
             'bonnes_reponses' => $type === 'multiple' ? array_values($question['bonnes_reponses']) : null,
+            'explication'     => $question['explication'] ?? null,
         ];
     }
 

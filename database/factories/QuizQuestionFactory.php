@@ -23,6 +23,7 @@ class QuizQuestionFactory extends Factory
             'choix' => $choix,
             'bonne_reponse' => $bonneReponse,
             'bonnes_reponses' => null,
+            'explication' => fake()->optional(0.6)->sentence(15),
         ];
     }
 
@@ -40,6 +41,7 @@ class QuizQuestionFactory extends Factory
                 'choix' => $choix,
                 'bonne_reponse' => '',
                 'bonnes_reponses' => $bonnesReponses,
+                'explication' => fake()->optional(0.6)->sentence(15),
             ];
         });
     }

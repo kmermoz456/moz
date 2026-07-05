@@ -45,13 +45,35 @@ class QuizSeeder extends Seeder
                 continue;
             }
 
-            $total = $quiz->questions()->count();
+            $questions = $quiz->questions;
+            $reponses = [];
+            $score = 0;
+
+            foreach ($questions as $question) {
+                $repondCorrectement = fake()->boolean(65);
+
+                if ($question->estAChoixMultiple()) {
+                    $reponse = $repondCorrectement
+                        ? $question->bonnes_reponses
+                        : fake()->randomElements($question->choix, fake()->numberBetween(1, count($question->choix)));
+                } else {
+                    $mauvaisChoix = array_values(array_diff($question->choix, [$question->bonne_reponse]));
+                    $reponse = $repondCorrectement ? $question->bonne_reponse : fake()->randomElement($mauvaisChoix);
+                }
+
+                $reponses[$question->id] = $reponse;
+
+                if ($question->estCorrecte($reponse)) {
+                    $score++;
+                }
+            }
 
             QuizAttempt::create([
                 'user_id' => $etudiant->id,
                 'quiz_id' => $quiz->id,
-                'score' => fake()->numberBetween(0, $total),
-                'total' => $total,
+                'score' => $score,
+                'total' => $questions->count(),
+                'reponses' => $reponses,
             ]);
         }
     }

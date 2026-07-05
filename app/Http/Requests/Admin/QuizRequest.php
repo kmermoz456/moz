@@ -26,6 +26,7 @@ class QuizRequest extends FormRequest
             'questions.*.bonne_reponse'  => 'nullable|string|max:255',
             'questions.*.bonnes_reponses'   => 'nullable|array',
             'questions.*.bonnes_reponses.*' => 'string|max:255',
+            'questions.*.explication'       => 'nullable|string|max:2000',
         ];
     }
 

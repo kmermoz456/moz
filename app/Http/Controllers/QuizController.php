@@ -39,28 +39,31 @@ class QuizController extends Controller
 
         $score = 0;
         foreach ($questions as $question) {
-            if ($question->estAChoixMultiple()) {
-                $reponseEtudiant = $reponses[$question->id] ?? [];
-                $bonnesReponses = $question->bonnes_reponses ?? [];
-                sort($reponseEtudiant);
-                sort($bonnesReponses);
-
-                if ($reponseEtudiant === $bonnesReponses) {
-                    $score++;
-                }
-            } elseif (($reponses[$question->id] ?? null) === $question->bonne_reponse) {
+            if ($question->estCorrecte($reponses[$question->id] ?? null)) {
                 $score++;
             }
         }
 
         $attempt = QuizAttempt::create([
-            'user_id' => auth()->id(),
-            'quiz_id' => $quiz->id,
-            'score'   => $score,
-            'total'   => $questions->count(),
+            'user_id'  => auth()->id(),
+            'quiz_id'  => $quiz->id,
+            'score'    => $score,
+            'total'    => $questions->count(),
+            'reponses' => $reponses,
         ]);
 
-        return redirect()->route('etudiant.quiz.index')
-            ->with('success', "Quiz terminé : {$attempt->score}/{$attempt->total} bonnes réponses.");
+        return redirect()->route('etudiant.quiz.resultats', $attempt);
+    }
+
+    /**
+     * Correction détaillée d'une tentative : score, réponses de l'étudiant et explications.
+     */
+    public function resultats(QuizAttempt $attempt)
+    {
+        abort_unless($attempt->user_id === auth()->id(), 403);
+
+        $attempt->load('quiz.questions');
+
+        return view('etudiant.quiz.resultats', compact('attempt'));
     }
 }
