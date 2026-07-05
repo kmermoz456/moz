@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ParametreController as AdminParametreController;
 use App\Http\Controllers\Admin\ProspectController as AdminProspectController;
 use App\Http\Controllers\Admin\DocumentPhysiqueController as AdminDocumentPhysiqueController;
 use App\Http\Controllers\Admin\CommandeController as AdminCommandeController;
+use App\Http\Controllers\Admin\AdministrateurController as AdminAdministrateurController;
 use App\Http\Controllers\{PageController, CoursController, QuizController, ProspectController, DocumentController};
 
 // Site public
@@ -81,6 +82,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('parametres', [AdminParametreController::class, 'index'])->name('parametres.index');
     Route::put('parametres', [AdminParametreController::class, 'update'])->name('parametres.update');
+
+    Route::get('administrateurs', [AdminAdministrateurController::class, 'index'])->name('administrateurs.index');
+    Route::get('administrateurs/creer', [AdminAdministrateurController::class, 'create'])->name('administrateurs.create');
+    Route::post('administrateurs', [AdminAdministrateurController::class, 'store'])->name('administrateurs.store');
+    Route::delete('administrateurs/{administrateur}', [AdminAdministrateurController::class, 'destroy'])->name('administrateurs.destroy');
 
     Route::get('prospects', [AdminProspectController::class, 'index'])->name('prospects.index');
     Route::delete('prospects/{prospect}', [AdminProspectController::class, 'destroy'])->name('prospects.destroy');
