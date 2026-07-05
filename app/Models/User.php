@@ -36,6 +36,7 @@ class User extends Authenticatable
 
 public function paiements() { return $this->hasMany(Paiement::class); }
 public function quizAttempts() { return $this->hasMany(QuizAttempt::class); }
+public function commandes() { return $this->hasMany(Commande::class); }
 
 public function isAdmin(): bool { return $this->role === 'admin'; }
 public function essaiActif(): bool

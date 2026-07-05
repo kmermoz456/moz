@@ -12,7 +12,9 @@ use App\Http\Controllers\Admin\ActualiteController as AdminActualiteController;
 use App\Http\Controllers\Admin\GalerieController as AdminGalerieController;
 use App\Http\Controllers\Admin\ParametreController as AdminParametreController;
 use App\Http\Controllers\Admin\ProspectController as AdminProspectController;
-use App\Http\Controllers\{PageController, CoursController, QuizController, ProspectController};
+use App\Http\Controllers\Admin\DocumentPhysiqueController as AdminDocumentPhysiqueController;
+use App\Http\Controllers\Admin\CommandeController as AdminCommandeController;
+use App\Http\Controllers\{PageController, CoursController, QuizController, ProspectController, DocumentController};
 
 // Site public
 Route::get('/', [PageController::class, 'accueil'])->name('accueil');
@@ -45,6 +47,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/quiz', [QuizController::class, 'index'])->name('etudiant.quiz.index');
     Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('etudiant.quiz.show');
     Route::post('/quiz/{quiz}', [QuizController::class, 'submit'])->name('etudiant.quiz.submit');
+
+    Route::get('/documents', [DocumentController::class, 'index'])->name('etudiant.documents.index');
+    Route::post('/documents/{document}/commander', [DocumentController::class, 'commander'])->name('etudiant.documents.commander');
+    Route::get('/mes-commandes', [DocumentController::class, 'mesCommandes'])->name('etudiant.commandes.index');
 });
 
 // Espace admin
@@ -78,4 +84,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('prospects', [AdminProspectController::class, 'index'])->name('prospects.index');
     Route::delete('prospects/{prospect}', [AdminProspectController::class, 'destroy'])->name('prospects.destroy');
+
+    Route::resource('documents', AdminDocumentPhysiqueController::class)->except(['show']);
+
+    Route::get('commandes', [AdminCommandeController::class, 'index'])->name('commandes.index');
+    Route::patch('commandes/{commande}/statut', [AdminCommandeController::class, 'updateStatut'])->name('commandes.statut');
+    Route::delete('commandes/{commande}', [AdminCommandeController::class, 'destroy'])->name('commandes.destroy');
 });

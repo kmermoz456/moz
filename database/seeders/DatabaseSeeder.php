@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             QuizSeeder::class,
             ContenuSeeder::class,
             PaiementSeeder::class,
+            DocumentPhysiqueSeeder::class,
+            CommandeSeeder::class,
             ProspectSeeder::class,
         ]);
     }

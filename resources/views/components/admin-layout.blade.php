@@ -41,6 +41,8 @@
                         ['route' => 'admin.prospects.index', 'label' => '📇 Contacts rapides'],
                         ['route' => 'admin.cours.index', 'label' => '📄 Cours'],
                         ['route' => 'admin.paiements.index', 'label' => '💳 Paiements'],
+                        ['route' => 'admin.documents.index', 'label' => '📦 Documents physiques'],
+                        ['route' => 'admin.commandes.index', 'label' => '🧾 Commandes'],
                         ['route' => 'admin.quiz.index', 'label' => '⚡ Quiz'],
                         ['route' => 'admin.temoignages.index', 'label' => '💬 Témoignages'],
                         ['route' => 'admin.actualites.index', 'label' => '📰 Actualités'],

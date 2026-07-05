@@ -7,7 +7,7 @@
 
     <div class="{{ $compact ? 'w-full' : 'flex-1 w-full' }}">
         <input type="text" name="nom" value="{{ old('nom') }}" placeholder="Votre nom" required
-               class="w-full rounded-lg border-gray-300 focus:border-itf-blue focus:ring-itf-blue">
+               class="w-full p-2 rounded-lg border-gray-900 focus:border-itf-blue focus:ring-itf-blue">
         @error('nom', 'prospect')
             <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
         @enderror
@@ -15,7 +15,7 @@
 
     <div class="{{ $compact ? 'w-full' : 'flex-1 w-full' }}">
         <input type="tel" name="telephone" value="{{ old('telephone') }}" placeholder="Votre numéro WhatsApp" required
-               class="w-full rounded-lg border-gray-300 focus:border-itf-blue focus:ring-itf-blue">
+               class="w-full P-2 rounded-lg border-gray-900 focus:border-itf-blue focus:ring-itf-blue">
         @error('telephone', 'prospect')
             <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
         @enderror
