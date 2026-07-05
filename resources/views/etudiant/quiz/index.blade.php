@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Quiz — Mon espace ITF" :noindex="true">
     <section class="max-w-6xl mx-auto px-4 py-10">
         <h1 class="text-2xl font-bold text-itf-dark mb-6">Quiz — Niveau {{ auth()->user()->niveau }}</h1>
 

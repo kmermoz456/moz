@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Commander des documents — Mon espace ITF" :noindex="true">
 
     {{-- ================= En-tête ================= --}}
     <section class="relative overflow-hidden bg-itf-blue text-itf-white">

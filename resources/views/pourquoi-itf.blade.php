@@ -1,4 +1,6 @@
-<x-app-layout>
+<x-app-layout
+    title="Pourquoi choisir ITF ? — Renforcement académique"
+    description="Enseignants expérimentés, suivi personnalisé, quiz interactifs, exercices corrigés : découvrez pourquoi choisir ITF pour réussir votre Licence 1 et Licence 2.">
 
     {{-- Animations locales (identiques à l'accueil, aucune dépendance) --}}
     <style>

@@ -1,4 +1,6 @@
-<x-app-layout>
+<x-app-layout
+    title="À propos d'ITF — Intellect Tronc SN Formation"
+    description="Mission, vision et valeurs d'Intellect Tronc SN Formation, structure de renforcement académique en Sciences de la Nature à l'Université Nangui Abrogoua.">
 
     <style>
         .itf-reveal {

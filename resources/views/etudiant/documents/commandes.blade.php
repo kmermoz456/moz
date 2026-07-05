@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Mes commandes — ITF" :noindex="true">
 
     @php
         $libelles = [

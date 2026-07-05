@@ -28,7 +28,9 @@
     </script>
 @endpush
 
-<x-app-layout>
+<x-app-layout
+    title="Découvrir l'Université Nangui Abrogoua — ITF"
+    description="Filières, campus, système LMD et FAQ pour bien démarrer à l'UFR Sciences de la Nature de l'Université Nangui Abrogoua, avec l'accompagnement d'ITF.">
 
     <style>
         .itf-reveal {

@@ -3,7 +3,31 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? 'ITF — Intellect Tronc SN Formation' }}</title>
+    @php
+        $titrePage = $title ?? 'ITF — Intellect Tronc SN Formation';
+        $descriptionPage = $description ?? "Intellect Tronc SN Formation (ITF) accompagne les étudiants de Licence 1 et Licence 2 en Sciences de la Nature de l'Université Nangui Abrogoua : cours, quiz, exercices corrigés et suivi personnalisé. 1 mois gratuit pour les nouveaux bacheliers.";
+        $imagePartage = isset($image) ? asset($image) : asset('images/banner.png');
+    @endphp
+    <title>{{ $titrePage }}</title>
+    <meta name="description" content="{{ $descriptionPage }}">
+    <link rel="canonical" href="{{ url()->current() }}">
+    @if (isset($noindex) && $noindex)
+        <meta name="robots" content="noindex, nofollow">
+    @endif
+
+    {{-- Open Graph / réseaux sociaux --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ITF — Intellect Tronc SN Formation">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="{{ $titrePage }}">
+    <meta property="og:description" content="{{ $descriptionPage }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ $imagePartage }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $titrePage }}">
+    <meta name="twitter:description" content="{{ $descriptionPage }}">
+    <meta name="twitter:image" content="{{ $imagePartage }}">
+
     <link rel="icon" type="image/png" href="{{ asset('images/icon_ITF.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')

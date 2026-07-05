@@ -1,4 +1,6 @@
-<x-app-layout>
+<x-app-layout
+    title="Rejoindre la communauté WhatsApp — ITF"
+    description="Rejoignez le groupe WhatsApp officiel d'ITF : informations sur les cours, conseils d'orientation, aide académique et annonces importantes.">
     {{-- Bannière --}}
     <section class="relative bg-itf-dark text-itf-white">
         <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1600&q=60"

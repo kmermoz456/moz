@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="{{ $quiz->titre }} — ITF" :noindex="true">
     <section class="max-w-3xl mx-auto px-4 py-10">
         <a href="{{ route('etudiant.quiz.index') }}" class="text-sm text-itf-blue hover:underline">&larr; Retour aux quiz</a>
         <h1 class="text-2xl font-bold text-itf-dark mt-2 mb-1">{{ $quiz->titre }}</h1>

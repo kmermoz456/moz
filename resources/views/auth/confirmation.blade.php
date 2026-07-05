@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Bienvenue — ITF" :noindex="true">
 
     <style>
         @keyframes itf-apparition {

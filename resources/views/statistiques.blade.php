@@ -1,4 +1,6 @@
-<x-app-layout>
+<x-app-layout
+    title="Nos statistiques et résultats — ITF"
+    description="Taux de réussite, taux de satisfaction et nombre d'étudiants accompagnés par Intellect Tronc SN Formation en Sciences de la Nature à l'Université Nangui Abrogoua.">
 
     <style>
         .itf-reveal {

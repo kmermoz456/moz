@@ -1,4 +1,6 @@
-<x-app-layout>
+<x-app-layout
+    title="Connexion — ITF"
+    description="Connectez-vous à votre espace étudiant ITF pour accéder à vos cours, quiz et documents.">
 
     <section class="relative min-h-screen overflow-hidden bg-itf-cream px-4 py-16">
 

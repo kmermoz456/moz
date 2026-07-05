@@ -1,4 +1,6 @@
-<x-app-layout>
+<x-app-layout
+    title="Témoignages d'étudiants — ITF"
+    description="Découvrez les témoignages des étudiants de Licence 1 et Licence 2 accompagnés par Intellect Tronc SN Formation à l'Université Nangui Abrogoua.">
     {{-- Bannière --}}
     <section class="relative bg-itf-blue text-itf-white">
         <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1600&q=60"

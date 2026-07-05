@@ -1,4 +1,6 @@
-<x-app-layout>
+<x-app-layout
+    title="Inscription — 1 mois gratuit — ITF"
+    description="Inscrivez-vous à Intellect Tronc SN Formation et bénéficiez d'un mois de renforcement académique gratuit en Sciences de la Nature.">
 
     <section class="relative min-h-screen overflow-hidden bg-itf-cream px-4 py-16">
 

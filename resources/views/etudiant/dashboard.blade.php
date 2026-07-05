@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Mon espace — ITF" :noindex="true">
 
     <style>
         .itf-reveal {

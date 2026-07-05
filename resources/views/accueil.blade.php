@@ -1,4 +1,6 @@
-<x-app-layout>
+<x-app-layout
+    title="ITF — Renforcement académique en Sciences de la Nature (UNA)"
+    description="Intellect Tronc SN Formation accompagne les étudiants de Licence 1 et Licence 2 en Sciences de la Nature de l'Université Nangui Abrogoua : cours, quiz, exercices corrigés et suivi personnalisé. 1 mois gratuit pour les nouveaux bacheliers.">
 
     {{-- Petites animations locales à la page (aucune dépendance) --}}
     <style>

@@ -15,7 +15,11 @@ use App\Http\Controllers\Admin\ProspectController as AdminProspectController;
 use App\Http\Controllers\Admin\DocumentPhysiqueController as AdminDocumentPhysiqueController;
 use App\Http\Controllers\Admin\CommandeController as AdminCommandeController;
 use App\Http\Controllers\Admin\AdministrateurController as AdminAdministrateurController;
-use App\Http\Controllers\{PageController, CoursController, QuizController, ProspectController, DocumentController};
+use App\Http\Controllers\{PageController, CoursController, QuizController, ProspectController, DocumentController, SeoController};
+
+// Référencement
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 
 // Site public
 Route::get('/', [PageController::class, 'accueil'])->name('accueil');
