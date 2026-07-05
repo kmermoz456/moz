@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\password;
 use function Laravel\Prompts\text;
 
@@ -18,6 +19,7 @@ use function Laravel\Prompts\text;
     {--email= : Email}
     {--telephone= : Téléphone WhatsApp}
     {--password= : Mot de passe (au moins 8 caractères)}
+    {--super-admin : Faire de ce compte un super admin (voit et modifie le contenu de tous les administrateurs)}
 ')]
 #[Description('Créer un compte administrateur (à utiliser en production, ne dépend pas des données de démo)')]
 class CreerAdminCommand extends Command
@@ -57,6 +59,13 @@ class CreerAdminCommand extends Command
                 : null);
         }
 
+        $etaitInteractif = ! $this->option('email');
+        $estSuperAdmin = $this->option('super-admin')
+            || ($etaitInteractif && confirm(
+                'En faire un super admin ? (voit et modifie le contenu créé par tous les administrateurs)',
+                default: User::where('role', 'admin')->doesntExist(),
+            ));
+
         $admin = User::create([
             'name' => $name,
             'prenoms' => $prenoms,
@@ -65,9 +74,10 @@ class CreerAdminCommand extends Command
             'niveau' => 'L1',
             'role' => 'admin',
             'password' => Hash::make($password),
+            'est_super_admin' => $estSuperAdmin,
         ]);
 
-        $this->info("Compte administrateur créé pour {$admin->email}.");
+        $this->info("Compte administrateur créé pour {$admin->email}.".($estSuperAdmin ? ' (super admin)' : ''));
 
         return self::SUCCESS;
     }
