@@ -16,6 +16,9 @@
                     <th class="p-3">Prix</th>
                     <th class="p-3">Commandes</th>
                     <th class="p-3">Statut</th>
+                    @if (auth()->user()->estSuperAdmin())
+                        <th class="p-3">Créé par</th>
+                    @endif
                     <th class="p-3">Actions</th>
                 </tr>
             </thead>
@@ -34,6 +37,9 @@
                                 <span class="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">Masqué</span>
                             @endif
                         </td>
+                        @if (auth()->user()->estSuperAdmin())
+                            <td class="p-3 text-gray-500">{{ $document->creePar->name ?? '—' }}</td>
+                        @endif
                         <td class="p-3 space-x-2">
                             <a href="{{ route('admin.documents.edit', $document) }}" class="text-itf-blue hover:underline">Modifier</a>
                             <form method="POST" action="{{ route('admin.documents.destroy', $document) }}" class="inline"
@@ -45,7 +51,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="7" class="p-3 text-gray-500">Aucun document dans le catalogue.</td></tr>
+                    <tr><td colspan="{{ auth()->user()->estSuperAdmin() ? 8 : 7 }}" class="p-3 text-gray-500">Aucun document dans le catalogue.</td></tr>
                 @endforelse
             </tbody>
         </table>

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\DocumentPhysique;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -28,11 +29,14 @@ class DocumentPhysiqueSeeder extends Seeder
     public function run(): void
     {
         $photos = $this->telechargerPhotos();
+        $superAdmin = User::where('email', 'admin@itf.ci')->value('id');
+        $autreAdmin = User::where('email', 'marie.kouassi@itf.ci')->value('id');
 
         foreach (self::CATALOGUE as $i => $item) {
             DocumentPhysique::create($item + [
                 'image' => $photos[$i % max(1, count($photos))] ?? null,
                 'disponible' => true,
+                'cree_par_id' => $i % 2 === 0 ? $superAdmin : $autreAdmin,
             ]);
         }
     }

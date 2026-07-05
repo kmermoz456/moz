@@ -10,7 +10,7 @@ class QuizController extends Controller
 {
     public function index()
     {
-        $quiz = Quiz::withCount('questions')->latest()->paginate(15);
+        $quiz = Quiz::visiblesPar(auth()->user())->with('creePar')->withCount('questions')->latest()->paginate(15);
 
         return view('admin.quiz.index', compact('quiz'));
     }
@@ -33,6 +33,8 @@ class QuizController extends Controller
 
     public function edit(Quiz $quiz)
     {
+        abort_unless($quiz->estModifiablePar(auth()->user()), 403);
+
         $quiz->load('questions');
 
         return view('admin.quiz.edit', compact('quiz'));
@@ -40,6 +42,8 @@ class QuizController extends Controller
 
     public function update(QuizRequest $request, Quiz $quiz)
     {
+        abort_unless($quiz->estModifiablePar(auth()->user()), 403);
+
         $quiz->update($request->only('titre', 'niveau', 'matiere'));
 
         $quiz->questions()->delete();
@@ -68,6 +72,8 @@ class QuizController extends Controller
 
     public function destroy(Quiz $quiz)
     {
+        abort_unless($quiz->estModifiablePar(auth()->user()), 403);
+
         $quiz->delete();
 
         return redirect()->route('admin.quiz.index')->with('success', 'Quiz supprimé.');

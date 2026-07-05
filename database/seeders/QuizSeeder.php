@@ -16,12 +16,16 @@ class QuizSeeder extends Seeder
 
     public function run(): void
     {
+        $superAdmin = User::where('email', 'admin@itf.ci')->value('id');
+        $autreAdmin = User::where('email', 'marie.kouassi@itf.ci')->value('id');
+
         foreach (self::MATIERES as $niveau => $matieres) {
             foreach ($matieres as $matiere) {
                 $quiz = Quiz::factory()->create([
                     'titre' => 'Quiz — '.$matiere,
                     'niveau' => $niveau,
                     'matiere' => $matiere,
+                    'cree_par_id' => $niveau === 'L1' ? $superAdmin : $autreAdmin,
                 ]);
 
                 $quiz->questions()->saveMany([

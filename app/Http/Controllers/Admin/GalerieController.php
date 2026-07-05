@@ -11,7 +11,7 @@ class GalerieController extends Controller
 {
     public function index()
     {
-        $photos = Galerie::latest()->paginate(15);
+        $photos = Galerie::visiblesPar(auth()->user())->with('creePar')->latest()->paginate(15);
 
         return view('admin.galerie.index', compact('photos'));
     }
@@ -33,6 +33,8 @@ class GalerieController extends Controller
 
     public function destroy(Galerie $galerie)
     {
+        abort_unless($galerie->estModifiablePar(auth()->user()), 403);
+
         Storage::disk('public')->delete($galerie->image);
         $galerie->delete();
 

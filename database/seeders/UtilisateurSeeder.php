@@ -14,6 +14,15 @@ class UtilisateurSeeder extends Seeder
             'prenoms' => 'ITF',
             'email' => 'admin@itf.ci',
             'telephone' => '0700000000',
+            'est_super_admin' => true,
+        ]);
+
+        // Second administrateur (non super admin) pour démontrer l'isolation du contenu
+        User::factory()->admin()->create([
+            'name' => 'Kouassi',
+            'prenoms' => 'Marie',
+            'email' => 'marie.kouassi@itf.ci',
+            'telephone' => '0700000001',
         ]);
 
         // Étudiants avec essai gratuit encore actif

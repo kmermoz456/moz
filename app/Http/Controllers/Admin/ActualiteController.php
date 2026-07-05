@@ -11,7 +11,7 @@ class ActualiteController extends Controller
 {
     public function index()
     {
-        $actualites = Actualite::latest()->paginate(15);
+        $actualites = Actualite::visiblesPar(auth()->user())->with('creePar')->latest()->paginate(15);
 
         return view('admin.actualites.index', compact('actualites'));
     }
@@ -37,11 +37,15 @@ class ActualiteController extends Controller
 
     public function edit(Actualite $actualite)
     {
+        abort_unless($actualite->estModifiablePar(auth()->user()), 403);
+
         return view('admin.actualites.edit', compact('actualite'));
     }
 
     public function update(ActualiteRequest $request, Actualite $actualite)
     {
+        abort_unless($actualite->estModifiablePar(auth()->user()), 403);
+
         $data = $request->safe()->except('image');
         $data['publie'] = $request->boolean('publie');
 
@@ -59,6 +63,8 @@ class ActualiteController extends Controller
 
     public function destroy(Actualite $actualite)
     {
+        abort_unless($actualite->estModifiablePar(auth()->user()), 403);
+
         if ($actualite->image) {
             Storage::disk('public')->delete($actualite->image);
         }

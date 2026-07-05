@@ -24,10 +24,12 @@ class AdministrateurController extends Controller
     public function store(AdministrateurRequest $request)
     {
         User::create([
-            ...$request->safe()->except('password'),
+            ...$request->safe()->except(['password', 'est_super_admin']),
             'password' => Hash::make($request->validated('password')),
             'niveau'   => 'L1',
             'role'     => 'admin',
+            // Seul un super admin peut créer un autre super admin.
+            'est_super_admin' => auth()->user()->estSuperAdmin() && $request->boolean('est_super_admin'),
         ]);
 
         return redirect()->route('admin.administrateurs.index')->with('success', 'Administrateur créé avec succès.');

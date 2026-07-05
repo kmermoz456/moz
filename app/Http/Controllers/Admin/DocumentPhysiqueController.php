@@ -11,7 +11,7 @@ class DocumentPhysiqueController extends Controller
 {
     public function index()
     {
-        $documents = DocumentPhysique::withCount('commandes')->latest()->paginate(15);
+        $documents = DocumentPhysique::visiblesPar(auth()->user())->with('creePar')->withCount('commandes')->latest()->paginate(15);
 
         return view('admin.documents.index', compact('documents'));
     }
@@ -37,11 +37,15 @@ class DocumentPhysiqueController extends Controller
 
     public function edit(DocumentPhysique $document)
     {
+        abort_unless($document->estModifiablePar(auth()->user()), 403);
+
         return view('admin.documents.edit', compact('document'));
     }
 
     public function update(DocumentPhysiqueRequest $request, DocumentPhysique $document)
     {
+        abort_unless($document->estModifiablePar(auth()->user()), 403);
+
         $data = $request->safe()->except('image');
         $data['disponible'] = $request->boolean('disponible');
 
@@ -59,6 +63,8 @@ class DocumentPhysiqueController extends Controller
 
     public function destroy(DocumentPhysique $document)
     {
+        abort_unless($document->estModifiablePar(auth()->user()), 403);
+
         if ($document->image) {
             Storage::disk('public')->delete($document->image);
         }

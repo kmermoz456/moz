@@ -19,6 +19,7 @@ class AdministrateurRequest extends FormRequest
             'email'     => 'required|email|unique:users,email',
             'telephone' => 'required|string|max:20',
             'password'  => 'required|string|min:8|confirmed',
+            'est_super_admin' => 'nullable|boolean',
         ];
     }
 }

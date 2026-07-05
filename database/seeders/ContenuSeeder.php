@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Actualite;
 use App\Models\Galerie;
 use App\Models\Temoignage;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -23,16 +24,22 @@ class ContenuSeeder extends Seeder
     {
         $photos = $this->telechargerPhotos('demo', count(self::PHOTOS_UNSPLASH));
 
+        $superAdmin = User::where('email', 'admin@itf.ci')->value('id');
+        $autreAdmin = User::where('email', 'marie.kouassi@itf.ci')->value('id');
+
         Temoignage::factory()->count(8)->sequence(fn ($sequence) => [
             'photo' => $photos[$sequence->index % count($photos)] ?? null,
+            'cree_par_id' => $sequence->index % 2 === 0 ? $superAdmin : $autreAdmin,
         ])->create();
 
         Actualite::factory()->count(5)->sequence(fn ($sequence) => [
             'image' => $photos[($sequence->index + 3) % count($photos)] ?? null,
+            'cree_par_id' => $sequence->index % 2 === 0 ? $superAdmin : $autreAdmin,
         ])->create();
 
         Galerie::factory()->count(10)->sequence(fn ($sequence) => [
             'image' => $photos[$sequence->index % count($photos)] ?? null,
+            'cree_par_id' => $sequence->index % 2 === 0 ? $superAdmin : $autreAdmin,
         ])->create();
     }
 

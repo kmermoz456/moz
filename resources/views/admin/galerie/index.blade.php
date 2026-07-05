@@ -51,6 +51,9 @@
                     @if ($photo->created_at)
                         <p class="mt-0.5 text-xs text-gray-400">Ajoutée le {{ $photo->created_at->translatedFormat('d M Y') }}</p>
                     @endif
+                    @if (auth()->user()->estSuperAdmin())
+                        <p class="mt-0.5 text-xs text-gray-400">Par {{ $photo->creePar->name ?? '—' }}</p>
+                    @endif
                 </figcaption>
             </figure>
         @empty

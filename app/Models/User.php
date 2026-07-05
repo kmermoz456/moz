@@ -27,11 +27,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'est_super_admin' => 'boolean',
         ];
     }
 
     protected $fillable = [
-    'name', 'prenoms', 'email', 'telephone', 'niveau', 'role', 'essai_fin', 'password',
+    'name', 'prenoms', 'email', 'telephone', 'niveau', 'role', 'essai_fin', 'password', 'est_super_admin',
 ];
 
 public function paiements() { return $this->hasMany(Paiement::class); }
@@ -39,6 +40,12 @@ public function quizAttempts() { return $this->hasMany(QuizAttempt::class); }
 public function commandes() { return $this->hasMany(Commande::class); }
 
 public function isAdmin(): bool { return $this->role === 'admin'; }
+
+/**
+ * Un super admin voit et modifie le contenu créé par tous les administrateurs,
+ * contrairement à un admin normal limité à ce qu'il a lui-même créé.
+ */
+public function estSuperAdmin(): bool { return $this->isAdmin() && (bool) $this->est_super_admin; }
 public function essaiActif(): bool
 {
     return $this->essai_fin && now()->lte($this->essai_fin);

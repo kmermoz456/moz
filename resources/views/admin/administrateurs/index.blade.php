@@ -14,6 +14,7 @@
                     <th class="p-3">Prénoms</th>
                     <th class="p-3">Email</th>
                     <th class="p-3">Téléphone</th>
+                    <th class="p-3">Rôle</th>
                     <th class="p-3">Créé le</th>
                     <th class="p-3">Actions</th>
                 </tr>
@@ -25,6 +26,13 @@
                         <td class="p-3">{{ $administrateur->prenoms }}</td>
                         <td class="p-3">{{ $administrateur->email }}</td>
                         <td class="p-3">{{ $administrateur->telephone }}</td>
+                        <td class="p-3">
+                            @if ($administrateur->estSuperAdmin())
+                                <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">Super admin</span>
+                            @else
+                                <span class="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">Admin</span>
+                            @endif
+                        </td>
                         <td class="p-3 text-gray-500">{{ $administrateur->created_at->translatedFormat('d F Y') }}</td>
                         <td class="p-3">
                             @if ($administrateur->id === auth()->id())
@@ -40,7 +48,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="6" class="p-3 text-gray-500">Aucun administrateur trouvé.</td></tr>
+                    <tr><td colspan="7" class="p-3 text-gray-500">Aucun administrateur trouvé.</td></tr>
                 @endforelse
             </tbody>
         </table>

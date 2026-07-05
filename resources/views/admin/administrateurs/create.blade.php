@@ -56,6 +56,17 @@
                     </div>
                 </div>
 
+                @if (auth()->user()->estSuperAdmin())
+                    <label class="flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 cursor-pointer hover:border-itf-blue/40 transition">
+                        <input type="checkbox" name="est_super_admin" value="1" @checked(old('est_super_admin'))
+                               class="mt-0.5 rounded border-gray-300 text-itf-blue focus:ring-itf-blue">
+                        <span>
+                            <span class="block font-medium text-itf-dark">Administrateur principal (super admin)</span>
+                            <span class="block text-sm text-gray-500">Voit et modifie le contenu créé par tous les administrateurs, pas seulement le sien.</span>
+                        </span>
+                    </label>
+                @endif
+
                 <button type="submit" class="bg-itf-blue text-itf-white font-bold px-6 py-3 rounded-lg hover:opacity-90 transition">
                     Créer l'administrateur
                 </button>

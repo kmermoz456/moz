@@ -15,6 +15,9 @@
                     <th class="p-3">Niveau</th>
                     <th class="p-3">Accès</th>
                     <th class="p-3">Téléchargements</th>
+                    @if (auth()->user()->estSuperAdmin())
+                        <th class="p-3">Créé par</th>
+                    @endif
                     <th class="p-3">Actions</th>
                 </tr>
             </thead>
@@ -32,6 +35,9 @@
                             @endif
                         </td>
                         <td class="p-3">{{ $item->telechargements }}</td>
+                        @if (auth()->user()->estSuperAdmin())
+                            <td class="p-3 text-gray-500">{{ $item->creePar->name ?? '—' }}</td>
+                        @endif
                         <td class="p-3 space-x-2">
                             <a href="{{ route('admin.cours.edit', $item) }}" class="text-itf-blue hover:underline">Modifier</a>
                             <form method="POST" action="{{ route('admin.cours.destroy', $item) }}" class="inline"
@@ -43,7 +49,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="6" class="p-3 text-gray-500">Aucun cours pour le moment.</td></tr>
+                    <tr><td colspan="{{ auth()->user()->estSuperAdmin() ? 7 : 6 }}" class="p-3 text-gray-500">Aucun cours pour le moment.</td></tr>
                 @endforelse
             </tbody>
         </table>

@@ -10,7 +10,7 @@ class TemoignageController extends Controller
 {
     public function index()
     {
-        $temoignages = Temoignage::latest()->paginate(15);
+        $temoignages = Temoignage::visiblesPar(auth()->user())->with('creePar')->latest()->paginate(15);
 
         return view('admin.temoignages.index', compact('temoignages'));
     }
@@ -36,11 +36,15 @@ class TemoignageController extends Controller
 
     public function edit(Temoignage $temoignage)
     {
+        abort_unless($temoignage->estModifiablePar(auth()->user()), 403);
+
         return view('admin.temoignages.edit', compact('temoignage'));
     }
 
     public function update(TemoignageRequest $request, Temoignage $temoignage)
     {
+        abort_unless($temoignage->estModifiablePar(auth()->user()), 403);
+
         $data = $request->safe()->except('photo');
         $data['publie'] = $request->boolean('publie');
 
@@ -58,6 +62,8 @@ class TemoignageController extends Controller
 
     public function destroy(Temoignage $temoignage)
     {
+        abort_unless($temoignage->estModifiablePar(auth()->user()), 403);
+
         if ($temoignage->photo) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($temoignage->photo);
         }

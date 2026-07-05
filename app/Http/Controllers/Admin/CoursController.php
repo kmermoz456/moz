@@ -11,7 +11,7 @@ class CoursController extends Controller
 {
     public function index()
     {
-        $cours = Cours::latest()->paginate(15);
+        $cours = Cours::visiblesPar(auth()->user())->with('creePar')->latest()->paginate(15);
 
         return view('admin.cours.index', compact('cours'));
     }
@@ -34,11 +34,15 @@ class CoursController extends Controller
 
     public function edit(Cours $cour)
     {
+        abort_unless($cour->estModifiablePar(auth()->user()), 403);
+
         return view('admin.cours.edit', ['cours' => $cour]);
     }
 
     public function update(CoursRequest $request, Cours $cour)
     {
+        abort_unless($cour->estModifiablePar(auth()->user()), 403);
+
         $data = $request->safe()->except('fichier_pdf');
         $data['gratuit'] = $request->boolean('gratuit');
 
@@ -56,6 +60,8 @@ class CoursController extends Controller
 
     public function destroy(Cours $cour)
     {
+        abort_unless($cour->estModifiablePar(auth()->user()), 403);
+
         if ($cour->fichier_pdf) {
             Storage::disk('local')->delete($cour->fichier_pdf);
         }
