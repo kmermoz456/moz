@@ -13,11 +13,14 @@ class EtudiantController extends Controller
     {
         $etudiants = User::where('role', 'etudiant')
             ->when($request->filled('recherche'), function ($q) use ($request) {
-                $terme = $request->input('recherche');
+                // LOWER(...) LIKE plutôt que LIKE seul : le LIKE de PostgreSQL est
+                // sensible à la casse (contrairement à celui de MySQL), donc on
+                // uniformise la comparaison pour un résultat identique sur les deux SGBD.
+                $terme = '%'.mb_strtolower($request->input('recherche')).'%';
                 $q->where(function ($q) use ($terme) {
-                    $q->where('name', 'like', "%{$terme}%")
-                        ->orWhere('prenoms', 'like', "%{$terme}%")
-                        ->orWhere('email', 'like', "%{$terme}%");
+                    $q->whereRaw('LOWER(name) LIKE ?', [$terme])
+                        ->orWhereRaw('LOWER(prenoms) LIKE ?', [$terme])
+                        ->orWhereRaw('LOWER(email) LIKE ?', [$terme]);
                 });
             })
             ->when($request->filled('niveau'), fn ($q) => $q->where('niveau', $request->input('niveau')))

@@ -19,7 +19,10 @@ class DashboardController extends Controller
             'recettes_mois'     => Paiement::where('statut', 'valide')
                                        ->whereMonth('created_at', now()->month)->sum('montant'),
             'quiz_realises'     => QuizAttempt::count(),
-            'taux_reussite'     => round(QuizAttempt::selectRaw('AVG(score/total*100) as t')->value('t') ?? 0),
+            'taux_reussite'     => round(
+                QuizAttempt::where('total', '>', 0)->get(['score', 'total'])
+                    ->avg(fn ($a) => $a->score / $a->total * 100) ?? 0
+            ),
             'telechargements'   => Cours::sum('telechargements'),
         ];
 
