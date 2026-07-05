@@ -39,7 +39,16 @@ class QuizController extends Controller
 
         $score = 0;
         foreach ($questions as $question) {
-            if (($reponses[$question->id] ?? null) === $question->bonne_reponse) {
+            if ($question->estAChoixMultiple()) {
+                $reponseEtudiant = $reponses[$question->id] ?? [];
+                $bonnesReponses = $question->bonnes_reponses ?? [];
+                sort($reponseEtudiant);
+                sort($bonnesReponses);
+
+                if ($reponseEtudiant === $bonnesReponses) {
+                    $score++;
+                }
+            } elseif (($reponses[$question->id] ?? null) === $question->bonne_reponse) {
                 $score++;
             }
         }

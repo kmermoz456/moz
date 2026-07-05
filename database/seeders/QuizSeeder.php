@@ -24,9 +24,10 @@ class QuizSeeder extends Seeder
                     'matiere' => $matiere,
                 ]);
 
-                $quiz->questions()->saveMany(
-                    \App\Models\QuizQuestion::factory()->count(5)->make()
-                );
+                $quiz->questions()->saveMany([
+                    ...\App\Models\QuizQuestion::factory()->count(4)->make(),
+                    \App\Models\QuizQuestion::factory()->multiple()->make(),
+                ]);
             }
         }
 

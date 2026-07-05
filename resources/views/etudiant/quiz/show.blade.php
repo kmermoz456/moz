@@ -20,12 +20,22 @@
             <div class="space-y-6">
                 @foreach ($quiz->questions as $i => $question)
                     <div class="border border-gray-200 rounded-xl p-6">
-                        <p class="font-semibold text-itf-dark mb-4">{{ $i + 1 }}. {{ $question->question }}</p>
+                        <div class="flex items-start justify-between gap-3 mb-4">
+                            <p class="font-semibold text-itf-dark">{{ $i + 1 }}. {{ $question->question }}</p>
+                            @if ($question->estAChoixMultiple())
+                                <span class="shrink-0 text-xs bg-itf-cream text-itf-dark px-2 py-0.5 rounded-full">Plusieurs réponses possibles</span>
+                            @endif
+                        </div>
                         <div class="space-y-2">
                             @foreach ($question->choix as $choix)
                                 <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-itf-blue">
-                                    <input type="radio" name="reponses[{{ $question->id }}]" value="{{ $choix }}" required
-                                           class="text-itf-blue focus:ring-itf-blue">
+                                    @if ($question->estAChoixMultiple())
+                                        <input type="checkbox" name="reponses[{{ $question->id }}][]" value="{{ $choix }}"
+                                               class="rounded text-itf-blue focus:ring-itf-blue">
+                                    @else
+                                        <input type="radio" name="reponses[{{ $question->id }}]" value="{{ $choix }}" required
+                                               class="text-itf-blue focus:ring-itf-blue">
+                                    @endif
                                     <span>{{ $choix }}</span>
                                 </label>
                             @endforeach

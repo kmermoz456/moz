@@ -19,8 +19,28 @@ class QuizQuestionFactory extends Factory
 
         return [
             'question' => fake()->sentence(10).' ?',
+            'type' => 'unique',
             'choix' => $choix,
             'bonne_reponse' => $bonneReponse,
+            'bonnes_reponses' => null,
         ];
+    }
+
+    /**
+     * Question à choix multiple (2 ou 3 bonnes réponses parmi les choix).
+     */
+    public function multiple(): static
+    {
+        return $this->state(function () {
+            $choix = [fake()->sentence(3), fake()->sentence(3), fake()->sentence(3), fake()->sentence(3)];
+            $bonnesReponses = fake()->randomElements($choix, fake()->numberBetween(2, 3));
+
+            return [
+                'type' => 'multiple',
+                'choix' => $choix,
+                'bonne_reponse' => '',
+                'bonnes_reponses' => $bonnesReponses,
+            ];
+        });
     }
 }

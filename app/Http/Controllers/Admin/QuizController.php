@@ -25,11 +25,7 @@ class QuizController extends Controller
         $quiz = Quiz::create($request->only('titre', 'niveau', 'matiere'));
 
         foreach ($request->input('questions') as $question) {
-            $quiz->questions()->create([
-                'question'      => $question['question'],
-                'choix'         => array_values($question['choix']),
-                'bonne_reponse' => $question['bonne_reponse'],
-            ]);
+            $quiz->questions()->create($this->donneesQuestion($question));
         }
 
         return redirect()->route('admin.quiz.index')->with('success', 'Quiz créé avec succès.');
@@ -48,14 +44,26 @@ class QuizController extends Controller
 
         $quiz->questions()->delete();
         foreach ($request->input('questions') as $question) {
-            $quiz->questions()->create([
-                'question'      => $question['question'],
-                'choix'         => array_values($question['choix']),
-                'bonne_reponse' => $question['bonne_reponse'],
-            ]);
+            $quiz->questions()->create($this->donneesQuestion($question));
         }
 
         return redirect()->route('admin.quiz.index')->with('success', 'Quiz mis à jour.');
+    }
+
+    /**
+     * Prépare les données d'une question selon qu'elle est à choix unique ou multiple.
+     */
+    private function donneesQuestion(array $question): array
+    {
+        $type = $question['type'] ?? 'unique';
+
+        return [
+            'question'        => $question['question'],
+            'type'            => $type,
+            'choix'           => array_values($question['choix']),
+            'bonne_reponse'   => $type === 'unique' ? $question['bonne_reponse'] : '',
+            'bonnes_reponses' => $type === 'multiple' ? array_values($question['bonnes_reponses']) : null,
+        ];
     }
 
     public function destroy(Quiz $quiz)
