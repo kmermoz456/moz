@@ -8,7 +8,7 @@
     </a>
     <h1 class="text-2xl font-bold text-itf-dark mt-2 mb-6">Enregistrer un paiement</h1>
 
-    <div class="bg-itf-white rounded-2xl p-6 sm:p-8 shadow-sm border border-itf-dark/10 max-w-xl">
+    <div class="bg-itf-white rounded-2xl p-6 sm:p-10 shadow-sm border border-itf-dark/10 max-w-xl">
         <form method="POST" action="{{ route('admin.paiements.store') }}"
               x-data="{
                   etudiants: {{ Illuminate\Support\Js::from($etudiants->map(fn ($e) => [
@@ -38,7 +38,7 @@
             @csrf
 
             @if ($errors->any())
-                <div class="flex gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-sm mb-6">
+                <div class="flex gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-sm mb-8">
                     <svg class="w-5 h-5 shrink-0 text-red-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
                     </svg>
@@ -50,29 +50,34 @@
                 </div>
             @endif
 
-            <div class="space-y-5">
-                {{-- Étudiant (combobox recherchable) --}}
+            <div class="space-y-8">
+                {{-- Étudiant --}}
                 <div class="relative">
-                    <label class="block text-sm font-semibold text-itf-dark mb-1.5">Étudiant</label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-widest text-itf-dark/50 mb-1.5">
+                        Étudiant
+                    </label>
 
                     <button type="button" @click="open = !open"
-                            class="w-full flex items-center justify-between gap-2 rounded-xl border border-itf-dark/15 bg-itf-white
-                                   px-4 py-2.5 text-left shadow-sm transition-colors duration-200
-                                   hover:border-itf-blue/40 focus:border-itf-blue focus:ring-2 focus:ring-itf-blue/20 focus:outline-none">
-                        <span :class="selectedId ? 'text-itf-dark' : 'text-itf-dark/35'"
-                              x-text="selectedLabel || '— Sélectionner —'" class="truncate"></span>
+                            class="peer w-full flex items-center justify-between gap-2 bg-transparent border-0 border-b-2
+                                   {{ $errors->has('user_id') ? 'border-red-400' : 'border-itf-dark/20' }}
+                                   px-0 py-2 text-left transition-colors duration-200 focus:outline-none"
+                            :class="open ? 'border-itf-blue' : ''">
+                        <span :class="selectedId ? 'text-itf-dark' : 'text-itf-dark/30'"
+                              x-text="selectedLabel || 'Sélectionner un étudiant'" class="truncate"></span>
                         <svg class="w-4 h-4 text-itf-dark/35 shrink-0 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
                              fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
+                    <span class="pointer-events-none absolute left-0 bottom-0 h-0.5 w-0 bg-itf-blue transition-all duration-300"
+                          :class="open ? 'w-full' : ''"></span>
 
                     <input type="hidden" name="user_id" :value="selectedId">
 
                     <div x-show="open" x-cloak x-transition
                          class="absolute z-10 mt-2 w-full bg-itf-white rounded-xl border border-itf-dark/10 shadow-lg overflow-hidden">
                         <div class="p-2 border-b border-itf-dark/10">
-                            <input type="text" x-model="search" x-ref="search" placeholder="Rechercher un étudiant…"
+                            <input type="text" x-model="search" x-ref="search" placeholder="Rechercher…"
                                    class="w-full rounded-lg border border-itf-dark/15 px-3 py-1.5 text-sm text-itf-dark
                                           placeholder-itf-dark/35 focus:border-itf-blue focus:ring-1 focus:ring-itf-blue/30 focus:outline-none">
                         </div>
@@ -89,66 +94,84 @@
                 </div>
 
                 {{-- Montant / Mois --}}
-                <div class="grid sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="montant" class="block text-sm font-semibold text-itf-dark mb-1.5">Montant (FCFA)</label>
-                        <div class="relative">
+                <div class="grid sm:grid-cols-2 gap-8">
+                    <div class="relative">
+                        <label for="montant" class="block text-[11px] font-semibold uppercase tracking-widest text-itf-dark/50 mb-1.5">
+                            Montant
+                        </label>
+                        <div class="flex items-baseline gap-2">
                             <input id="montant" type="number" name="montant" x-model="montant" min="0" required
-                                   class="w-full rounded-xl border border-itf-dark/15 bg-itf-white pl-4 pr-16 py-2.5 text-itf-dark
-                                          shadow-sm transition-colors duration-200
-                                          hover:border-itf-blue/40 focus:border-itf-blue focus:ring-2 focus:ring-itf-blue/20 focus:outline-none">
-                            <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-itf-dark/35">FCFA</span>
+                                   placeholder="0"
+                                   class="peer w-full bg-transparent border-0 border-b-2 border-itf-dark/20 px-0 py-2
+                                          text-itf-dark placeholder-itf-dark/25 text-lg font-semibold
+                                          transition-colors duration-200 focus:outline-none focus:ring-0 focus:border-itf-blue">
+                            <span class="text-xs font-semibold text-itf-dark/35 shrink-0">FCFA</span>
                         </div>
-                        <p class="text-xs text-itf-dark/40 mt-1.5" x-show="montant > 0" x-cloak x-text="new Intl.NumberFormat('fr-FR').format(montant) + ' FCFA'"></p>
+                        <span class="pointer-events-none absolute left-0 bottom-0 h-0.5 w-0 bg-itf-blue transition-all duration-300 peer-focus:w-full"></span>
+                        <p class="text-xs text-itf-dark/40 mt-1.5" x-show="montant > 0" x-cloak
+                           x-text="new Intl.NumberFormat('fr-FR').format(montant) + ' FCFA'"></p>
                     </div>
-                    <div>
-                        <label for="mois" class="block text-sm font-semibold text-itf-dark mb-1.5">Mois</label>
-                        <div class="relative">
-                            <svg class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-itf-dark/35"
-                                 fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
-                            </svg>
-                            <input id="mois" type="text" name="mois" value="{{ old('mois', now()->translatedFormat('F Y')) }}" required
-                                   placeholder="Ex : Juillet 2026"
-                                   class="w-full rounded-xl border border-itf-dark/15 bg-itf-white pl-10 pr-4 py-2.5 text-itf-dark
-                                          placeholder-itf-dark/30 shadow-sm transition-colors duration-200
-                                          hover:border-itf-blue/40 focus:border-itf-blue focus:ring-2 focus:ring-itf-blue/20 focus:outline-none">
-                        </div>
+
+                    <div class="relative">
+                        <label for="mois" class="block text-[11px] font-semibold uppercase tracking-widest text-itf-dark/50 mb-1.5">
+                            Mois
+                        </label>
+                        <input id="mois" type="text" name="mois" value="{{ old('mois', now()->translatedFormat('F Y')) }}" required
+                               placeholder="Ex : Juillet 2026"
+                               class="peer w-full bg-transparent border-0 border-b-2 border-itf-dark/20 px-0 py-2
+                                      text-itf-dark placeholder-itf-dark/30
+                                      transition-colors duration-200 focus:outline-none focus:ring-0 focus:border-itf-blue">
+                        <span class="pointer-events-none absolute left-0 bottom-0 h-0.5 w-0 bg-itf-blue transition-all duration-300 peer-focus:w-full"></span>
                     </div>
                 </div>
 
-                {{-- Statut --}}
+                {{-- Statut en cartes --}}
                 <div>
-                    <label class="block text-sm font-semibold text-itf-dark mb-1.5">Statut</label>
+                    <label class="block text-[11px] font-semibold uppercase tracking-widest text-itf-dark/50 mb-2.5">
+                        Statut
+                    </label>
                     <input type="hidden" name="statut" :value="statut">
-                    <div class="inline-flex rounded-xl border border-itf-dark/15 p-1 bg-itf-cream/50">
+                    <div class="grid grid-cols-2 gap-3">
                         <button type="button" @click="statut = 'valide'"
-                                :class="statut === 'valide' ? 'bg-green-500 text-itf-white shadow-sm' : 'text-itf-dark/50 hover:text-itf-dark'"
-                                class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
-                            </svg>
-                            Validé
+                                class="flex items-center gap-3 rounded-xl border-2 p-3.5 text-left transition-all duration-200"
+                                :class="statut === 'valide' ? 'border-green-400 bg-green-50' : 'border-itf-dark/10 hover:border-itf-dark/25'">
+                            <span class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200"
+                                  :class="statut === 'valide' ? 'bg-green-500 text-white' : 'bg-itf-dark/5 text-itf-dark/30'">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+                                </svg>
+                            </span>
+                            <span>
+                                <span class="block text-sm font-semibold text-itf-dark">Validé</span>
+                                <span class="block text-xs text-itf-dark/45">Paiement confirmé</span>
+                            </span>
                         </button>
+
                         <button type="button" @click="statut = 'en_attente'"
-                                :class="statut === 'en_attente' ? 'bg-amber-400 text-itf-white shadow-sm' : 'text-itf-dark/50 hover:text-itf-dark'"
-                                class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/>
-                            </svg>
-                            En attente
+                                class="flex items-center gap-3 rounded-xl border-2 p-3.5 text-left transition-all duration-200"
+                                :class="statut === 'en_attente' ? 'border-amber-300 bg-amber-50' : 'border-itf-dark/10 hover:border-itf-dark/25'">
+                            <span class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200"
+                                  :class="statut === 'en_attente' ? 'bg-amber-400 text-white' : 'bg-itf-dark/5 text-itf-dark/30'">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/>
+                                </svg>
+                            </span>
+                            <span>
+                                <span class="block text-sm font-semibold text-itf-dark">En attente</span>
+                                <span class="block text-xs text-itf-dark/45">À confirmer plus tard</span>
+                            </span>
                         </button>
                     </div>
                 </div>
 
                 <button type="submit"
-                        class="inline-flex items-center gap-2 bg-itf-blue text-itf-white font-bold px-6 py-3 rounded-xl
-                               shadow-md shadow-itf-blue/25 transition-all duration-300
-                               hover:shadow-lg hover:shadow-itf-blue/35 hover:-translate-y-0.5 active:translate-y-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                    </svg>
+                        class="group/btn inline-flex items-center mt-3 gap-2 bg-itf-dark text-itf-white font-bold px-8 py-3 rounded-full
+                               transition-all duration-300 hover:bg-itf-blue hover:px-9 active:scale-95">
                     Enregistrer le paiement
+                    <svg class="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1"
+                         fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                    </svg>
                 </button>
             </div>
         </form>
